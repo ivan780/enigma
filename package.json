@@ -1,0 +1,22 @@
+{
+  "name": "enigma",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "debug": "~4.1.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.1",
+    "http-errors": "^1.7.3",
+    "morgan": "^1.10.0",
+    "pug": "^2.0.4",
+    "moment": "^2.25.3",
+    "mongoose": "^5.9.14"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
