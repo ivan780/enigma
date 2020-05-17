@@ -4,9 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//Mongose connection
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://libraryLocal:8F7iUFSQV3*&hYuVi#b*@127.0.0.1:60425/localLibrary?authSource=admin';
+mongoose.connect(mongoDB, {useNewUrlParser: true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, "MongoDB conection error:"))
+
+//Route required
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+
+//Init app
 var app = express();
 
 // view engine setup
@@ -19,13 +29,17 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
 });
+
 
 // error handler
 app.use(function (err, req, res, next) {
