@@ -1,19 +1,22 @@
+//Configuracion
+require('./config/config');
+//Dependecias
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-//Mongose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://enigmaUSER:*Q$%P7fC#cQWH63p@192.168.1.46:60425/EnigmaDB?authSource=admin';
-mongoose.connect(mongoDB, {useNewUrlParser: true});
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, "MongoDB conection error:"))
 
 //Route required
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+
+
+//Mongose connection
+mongoose.connect(process.env.URLDB, {useNewUrlParser: true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, "MongoDB conection error:"))
 
 
 //Init app
