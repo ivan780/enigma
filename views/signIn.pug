@@ -1,0 +1,16 @@
+extends layout
+block css
+    link(type='text/css' , href='/stylesheets/login.css')
+block content
+ div(class='logreg-forms')
+  form(method='POST' action='' class='form-signin')
+    div.form-group
+      label(for='Email') Email:
+      input#email.form-control(type='text' placeholder='Email (example@example.com)' name='email' required='true' value=(undefined===email ? '' : email) )
+
+      label(for='Pass') Password:
+      input#pass.form-control(type='password' name='pass' required='true' )
+    button.btn.btn-primary(type='submit') Submit
+  if errors
+    ul
+        li= errors
