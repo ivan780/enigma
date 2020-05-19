@@ -16,6 +16,7 @@
     "mongoose": "^5.9.14",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
+    "bcrypt": "^4.0.1",
     "pug": "^2.0.4"
   },
   "devDependencies": {
