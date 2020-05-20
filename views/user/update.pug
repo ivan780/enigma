@@ -1,0 +1,20 @@
+extends ../layout
+block css
+    link(type='text/css' , href='/stylesheets/login.css')
+
+block content
+ div(class='logreg-forms')
+  form(method='POST' action='' class='form-signin')
+    div.form-group
+      label(for='Email') Email:
+      input#email.form-control(type='text' placeholder='Email (example@example.com)' name='email' required='true' value=(undefined===email ? '' : email) )
+
+      label(for='Pass') Password:
+      input#oldPass.form-control(type='password' name='oldPass' required='true' )
+
+      label(for='Pass') new password:
+      input#newPass.form-control(type='password' name='newPass' required='true' )
+
+      label(for='Pass') Confirm password:
+      input#passConf.form-control(type='password' name='passConf' required='true' )
+    button.btn.btn-primary(type='submit') Submit
