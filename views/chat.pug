@@ -1,0 +1,8 @@
+extends layout
+block js
+    link(type='text/js' , href='/socket.io/socket.io.js')
+    link(type='text/js' , href='/javascripts/socket')
+
+block content
+  h1= title
+  p Welcome to #{title}
