@@ -14,6 +14,8 @@ var debug = require('debug')('enigma:server');
 //Route required
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+//var roomRouter = require('./routes/room');
+
 
 
 
@@ -30,6 +32,13 @@ server.listen(port);
 
 server.on('error', onError);
 server.on('listening', onListening);
+
+//sesions
+app.use(session({
+    secret: '324-445-3344',
+    resave: true,
+    saveUninitialized: true
+}));
 
 
 //Mongose connection
@@ -58,6 +67,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+//app.use('/room', roomRouter);
 
 
 // catch 404 and forward to error handler
