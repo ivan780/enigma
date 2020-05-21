@@ -10,6 +10,8 @@ if (process.env.NODE_ENV === 'dev') {
 
 process.env.URLDB = urlDB;
 
-process.env.CADUCIDAD_TOKEN = '48h';
+process.env.secretKey = "miclaveultrasecreta123*"
+
+process.env.expireToken = '5';//Days
 
 process.env.SEED_AUTENTICACION = process.env.SEED_AUTENTICACION ||  'este-es-el-seed-desarrollo';
