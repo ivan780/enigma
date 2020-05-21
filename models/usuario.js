@@ -12,9 +12,7 @@ let usuarioSchema = new Schema({
     }, password: {
         type: String,
         required: [true, "Le contraseña es obligatoria"],
-    }, session: {
-        type: String,
-    },
+    }
 });
 
 
