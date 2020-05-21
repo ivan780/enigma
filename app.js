@@ -6,14 +6,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require('express-session');
 var mongoose = require('mongoose');
 var debug = require('debug')('enigma:server');
 
 
 //Route required
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 //var roomRouter = require('./routes/room');
 
 
@@ -33,12 +31,6 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-//sesions
-app.use(session({
-    secret: '324-445-3344',
-    resave: true,
-    saveUninitialized: true
-}));
 
 
 //Mongose connection
@@ -61,12 +53,11 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
+app.use(cookieParser(process.env.secretKey));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 //app.use('/room', roomRouter);
 
 
