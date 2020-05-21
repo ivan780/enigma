@@ -3,14 +3,28 @@ const bcrypt = require('bcrypt');
 //const jwt = require('jsonwebtoken');
 const Usuario = require('./../models/usuario');
 const session = require('express-session');
+var jwt = require('../auth/local')
 
 const {body, validationResult} = require('express-validator/check');
 const {sanitizeBody} = require('express-validator/filter');
 
 exports.index = function (req, res, next) {
-    console.log(req.sessionID);
-    res.render('index', {title: 'Hola'});
+    if (req.cookies["token"]){
+        jwt.decodeToken(req.cookies["token"], function (msg, data) {
+            if (msg){
+                res.redirect("/login");
+                return
+            }
+            Usuario.findOne({ email: data.sub }).then(function (user) {
+                res.render('index', {email: user.email});
+
+            });
+
+        })
+    }
+    res.redirect("/login");
 };
+
 
 exports.login = function (req, res, next) {
     res.render('user/signIn');
@@ -18,15 +32,18 @@ exports.login = function (req, res, next) {
 
 exports.loginPOST = function (req, res, next) {
     console.log(req.body.email + "//" + req.body.pass);
-    var usuario = Usuario.findOne({email: req.body.email}, function (err, user) {
-        console.log("pene")
-        if (!user || !bcrypt.compareSync(req.body.pass, user.password)) {
-            res.render('user/signIn', {email: req.body.email, errors: "Email o contraseña incorrecto"});
-            return;
+    Usuario.findOne({ email: req.body.email }).then(function (user) {
+        if (!user) {
+            console.log("crack")
+            res.redirect('/login');
+        } else if (!bcrypt.compareSync(req.body.pass, user.password)) {
+            res.redirect('/login');
+        } else {
+
+            // Set cookie
+            res.cookie('token',jwt.encodeToken(user.email), { maxAge: 604800000 })
+            res.redirect('/dashboard');
         }
-        console.log("sesion: " + user.session + "//" + req.sessionID);
-        // Successful - redirect to new author record.
-        res.redirect('/users');
     });
 };
 
