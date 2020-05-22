@@ -2,7 +2,8 @@ extends ../layout
 block css
     link(type='text/css' , href='/stylesheets/login.css')
 block js
-
+    script(src='/socket.io/socket.io.js')
+    script(src='/javascripts/login.js')
 block content
  div(class='logreg-forms')
   form(method='POST' action='' class='form-signin')
@@ -10,9 +11,12 @@ block content
       label(for='Email') Email:
       input#email.form-control(type='text' placeholder='Email (example@example.com)' name='email' required='true' value=(undefined===email ? '' : email) )
 
+      label(for='Username') Username:
+      input#username.form-control(type='text' placeholder='Username (example123)' name='username')
+
       label(for='Pass') Password:
       input#pass.form-control(type='password' name='pass' required='true' )
 
       label(for='Pass') Confirm password:
-            input#passConf.form-control(type='password' name='passConf' required='true' )
+      input#passConf.form-control(type='password' name='passConf' required='true' )
     button.btn.btn-primary(type='submit') Submit
