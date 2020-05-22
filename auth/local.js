@@ -11,6 +11,7 @@ function encodeToken(user) {
     };
     return jwt.encode(playload, process.env.secretKey);
 }
+
 function decodeToken(token, callback) {
     const payload = jwt.decode(token, process.env.secretKey);
     const now = moment().unix();
