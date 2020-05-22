@@ -3,6 +3,11 @@ var router = express.Router();
 
 var user_controller = require('../controllers/userController')
 
+router.get('/test', (req, res) => {
+    res.render('inde.html', {title: 'first website'});
+}
+);
+
 
 router.get('/dashboard', user_controller.index);
 
@@ -17,5 +22,7 @@ router.post('/reg', user_controller.createUserPOST);
 router.get('/change-password', user_controller.changePass);
 
 router.post('/change-password', user_controller.changePassPOST);
+
+router.post('/add-contact', user_controller.addContact);
 
 module.exports = router;
