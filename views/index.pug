@@ -1,5 +1,10 @@
 extends layout
-
+block js
+    script(src='/socket.io/socket.io.js')
+    script(src='/javascripts/login.js')
 block content
-  h1= title
-  p Welcome to #{title}
+    p#userName #{User}
+    form(method='POST' action='/add-contact' class='form-signin')
+        label(for='Email') Email:
+        input#email.form-control(type='text' placeholder='Email (example@example.com)' name='email' required='true' value=(undefined===email ? '' : email) )
+        button.btn.btn-primary(type='submit' id="submitBtt") Submit
