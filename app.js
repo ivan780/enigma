@@ -38,15 +38,46 @@ mongoose.connect(process.env.URLDB, {useNewUrlParser: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, "MongoDB conection error:"))
 
+var Usuario = require('./models/usuario');
 
 //socketIo
-io.on('connection', (socket) => {
-    console.log('a user connected');
+io.sockets.on('connection', function (sock) {
+
+    console.log('Connected client');
+
+    //event to check if username exist
+    sock.on('checkUsername', function (data, callback) {
+        console.log('Socket (server-side): received message:', data);
+        Usuario.findOne({username: data.payload}, function (err, data) {
+            console.log(err)
+            if (!data){
+                callback(true);
+            }else {
+                callback(false)
+            }
+        })
+    });
+
+    sock.on('checkEmail', function (data, callback) {
+        console.log('Socket (server-side): received message:', data);
+        Usuario.findOne({email: data.payload}, function (err, data) {
+            console.log(err)
+            if (!data){
+                callback(true);
+            }else {
+                callback(false)
+            }
+        })
+    });
+
 });
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+//app.engine('html', require('ejs').renderFile);
+//app.set('view engine', 'ejs');
+
 app.set('view engine', 'pug');
 
 
