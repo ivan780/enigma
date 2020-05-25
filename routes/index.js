@@ -4,7 +4,7 @@ var router = express.Router();
 var user_controller = require('../controllers/userController')
 
 router.get('/test', (req, res) => {
-    res.render('inde.html', {title: 'first website'});
+    res.render('login.html', {title: 'first website'});
 }
 );
 
