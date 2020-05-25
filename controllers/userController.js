@@ -1,20 +1,31 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 //const jwt = require('jsonwebtoken');
 const Usuario = require('./../models/usuario');
 const session = require('express-session');
 var jwt = require('../auth/local')
-
-const {body, validationResult} = require('express-validator/check');
-const {sanitizeBody} = require('express-validator/filter');
+var md5 = require('md5')
 
 exports.index = function (req, res, next) {
+    var listCont=[];
+    var urlCont=[];
     if (req.cookies["token"]) {
         jwt.decodeToken(req.cookies["token"], function (msg, data) {
                 if (msg) {
                     return res.redirect("/login");
                 }
                 Usuario.findOne({email: data.sub}).then(function (user) {
+                    var contactos = user.contactos;
+                    for (var i=0;i<contactos.length;i++){
+                        listCont.push(contactos[i].split("///")[0]);
+                        if (contactos[i].split("///")[1] === 2){
+                            urlCont.push(md5(user.email+listCont[i]));
+                        }else {
+                            urlCont.push(md5(listCont[i]+user.email))
+                        }
+                    }
+                    console.log(urlCont)
+                    console.log(listCont)
                     return res.render('index', {User: user.email});
                 })
             }
@@ -67,6 +78,28 @@ exports.createUserPOST = function (req, res, next) {
 }
 
 exports.addContact = function (req, res, next) {
+    jwt.decodeToken(req.cookies["token"], function (msg, data) {
+        Usuario.findOne({email: data.sub}).then(function (user) {
+            //save contact
+            user.contactos.push(req.body.email + "///2")
+            user.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                Usuario.findOne({email: data.sub}).then(function (user) {
+                    //save contact for the other contact
+                    user.contactos.push(data.sub + "///1")
+                    user.save(function (err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        return res.redirect('/dashboard');
+                    });
+                });
+
+            });
+        });
+    })
 }
 
 
