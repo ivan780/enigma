@@ -12,7 +12,7 @@ var debug = require('debug')('enigma:server');
 
 //Route required
 var indexRouter = require('./routes/index');
-//var roomRouter = require('./routes/room');
+var chatRouter = require('./routes/chat');
 
 
 
@@ -41,12 +41,28 @@ db.on('error', console.error.bind(console, "MongoDB conection error:"))
 var Usuario = require('./models/usuario');
 
 //socketIo
-io.sockets.on('connection', function (sock) {
-
+io.sockets.on('connection', function (socket) {
     console.log('Connected client');
 
+    socket.on('create', function(room) {
+        socket.join(room);
+        console.log(room)
+    });
+
+    socket.on('send', function (data) {
+        console.log(data);
+        socket.to(data.Room).emit('receive', data.Message);
+    })
+
+    socket.on('leave', function (data) {
+        console.log("leave: " + data);
+        socket.leave(data);
+    })
+
+
+
     //event to check if username exist
-    sock.on('checkUsername', function (data, callback) {
+    socket.on('checkUsername', function (data, callback) {
         console.log('Socket (server-side): received message:', data);
         Usuario.findOne({username: data.payload}, function (err, data) {
             console.log(err)
@@ -58,7 +74,8 @@ io.sockets.on('connection', function (sock) {
         })
     });
 
-    sock.on('checkEmail', function (data, callback) {
+
+    socket.on('checkEmail', function (data, callback) {
         console.log('Socket (server-side): received message:', data);
         Usuario.findOne({email: data.payload}, function (err, data) {
             console.log(err)
@@ -89,7 +106,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes
 app.use('/', indexRouter);
-//app.use('/room', roomRouter);
+app.use('/chat', chatRouter);
 
 
 // catch 404 and forward to error handler
