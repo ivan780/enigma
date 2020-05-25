@@ -15,6 +15,8 @@ let usuarioSchema = new Schema({
     }, username: {
         type: String,
         required: true
+    }, contactos: {
+        type: Array
     }
 });
 
