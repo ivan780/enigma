@@ -4,7 +4,7 @@ var socket = io.connect('http://localhost:3000');
 var submitBtt = document.getElementById("submitBtt");
 submitBtt.disabled = true;
 
-var username = document.getElementById("userName").innerText;
+var username = document.getElementById("username").innerText;
 
 var inputUsername = document.getElementById("username");
 var inputEmail = document.getElementById("email");
