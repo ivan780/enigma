@@ -38,5 +38,5 @@ function updateEmail(e) {
 }
 
 function disabled(state) {
-    submitBtt.disabled = state
+    submitBtt.disabled = !state
 }
