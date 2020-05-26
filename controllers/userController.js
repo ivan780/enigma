@@ -123,8 +123,7 @@ exports.changePassPOST = function (req, res, next) {
 };
 
 exports.chat = function (req, res, next) {
-    var user = checkToken(req, res)
-    if (user) {
+    checkToken(req, res, (user)=>{
         for (var i = 0; i < user.contactos.length; i++) {
             var idPos
             console.log(user.contactos[i].split("///"))
@@ -140,5 +139,5 @@ exports.chat = function (req, res, next) {
             }
         }
         return res.redirect('/dashboard');
-    }
+    });
 }
