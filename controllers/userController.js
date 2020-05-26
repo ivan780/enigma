@@ -17,10 +17,10 @@ exports.index = function (req, res, next) {
                     var contactos = user.contactos;
                     for (var i = 0; i < contactos.length; i++) {
                         listCont.push(contactos[i].split("///")[0]);
-                        if (contactos[i].split("///")[1] === 2) {
-                            urlCont.push(md5(user.email + listCont[i]));
+                        if (contactos[i].split("///")[1] === '2') {
+                            urlCont.push(md5(user.email + user.contactos[i].split("///")[0]));
                         } else {
-                            urlCont.push(md5(listCont[i] + user.email))
+                            urlCont.push(md5(user.contactos[i].split("///")[0] + user.email))
                         }
                     }
                     console.log(urlCont)
@@ -133,10 +133,8 @@ exports.chat = function (req, res, next) {
                 var idPos
                 console.log(user.contactos[i].split("///"))
                 if (user.contactos[i].split("///")[1] === '2') {
-                    console.log("hola")
                     idPos = md5(user.email + user.contactos[i].split("///")[0])
                 } else {
-                    console.log("adios")
                     idPos = md5( user.contactos[i].split("///")[0] + user.email)
                 }
                 console.log("idPos: " + idPos + "///" + req.params.id)
