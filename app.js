@@ -96,7 +96,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 //app.set('view engine', 'pug');
 
-app.use(favicon(__dirname + '/public/images/favicon.ico'));
+app.use(favicon(__dirname + '/public/images/favicon.svg'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
