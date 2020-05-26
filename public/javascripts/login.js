@@ -25,10 +25,11 @@ function updateUsername(e) {
 }
 
 function updateEmail(e) {
+    /**
     if(e.target.value === username){
         return disabled(true);
-    }
-    console.log(document.getElementById("userName").innerText)
+    }**/
+    //console.log(document.getElementById("userName").innerText)
     socket.emit('checkEmail', {
         payload: e.target.value
 
