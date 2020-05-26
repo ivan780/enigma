@@ -6,6 +6,7 @@ var md5 = require('md5')
 function checkToken(req, res) {
     jwt.decodeToken(req.cookies["token"], function (msg, data) {
         if (msg) {
+            console.log("maricon");
             return res.redirect("/login");
         }
         Usuario.findOne({email: data.sub}).then(function (user) {
