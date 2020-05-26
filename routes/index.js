@@ -30,6 +30,8 @@ router.get('/reg', user_controller.createUser);
 
 router.post('/reg', user_controller.createUserPOST);
 
+router.get('/logout', user_controller.logout)
+
 router.get('/change-password', user_controller.changePass);
 
 router.post('/change-password', user_controller.changePassPOST);
