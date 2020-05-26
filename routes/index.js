@@ -26,9 +26,9 @@ router.get('/login', user_controller.login);
 
 router.post('/login', user_controller.loginPOST);
 
-router.get('/reg', user_controller.createUser);
+router.get('/signup', user_controller.createUser);
 
-router.post('/reg', user_controller.createUserPOST);
+router.post('/signup', user_controller.createUserPOST);
 
 router.get('/logout', user_controller.logout)
 
