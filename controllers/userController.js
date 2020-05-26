@@ -1,36 +1,36 @@
-const express = require('express');
 const bcrypt = require('bcryptjs');
 const Usuario = require('./../models/usuario');
-const session = require('express-session');
 var jwt = require('../auth/local')
 var md5 = require('md5')
 
-exports.index = function (req, res, next) {
+function checkToken(req, res) {
+    jwt.decodeToken(req.cookies["token"], function (msg, data) {
+        if (msg) {
+            return res.redirect("/login");
+        }
+        Usuario.findOne({email: data.sub}).then(function (user) {
+            return user;
+        });
+    });
+}
+
+exports.index = function (req, res) {
     var listCont = [];
     var urlCont = [];
-    if (req.cookies["token"]) {
-        jwt.decodeToken(req.cookies["token"], function (msg, data) {
-                if (msg) {
-                    return res.redirect("/login");
-                }
-                Usuario.findOne({email: data.sub}).then(function (user) {
-                    var contactos = user.contactos;
-                    for (var i = 0; i < contactos.length; i++) {
-                        listCont.push(contactos[i].split("///")[0]);
-                        if (contactos[i].split("///")[1] === '2') {
-                            urlCont.push(md5(user.email + user.contactos[i].split("///")[0]));
-                        } else {
-                            urlCont.push(md5(user.contactos[i].split("///")[0] + user.email))
-                        }
-                    }
-                    console.log(urlCont)
-                    console.log(listCont)
-                    return res.render('index', {User: user.email});
-                })
+    var user = checkToken(req, res)
+    if (user) {
+        var contactos = user.contactos;
+        for (var i = 0; i < contactos.length; i++) {
+            listCont.push(contactos[i].split("///")[0]);
+            if (contactos[i].split("///")[1] === '2') {
+                urlCont.push(md5(user.email + user.contactos[i].split("///")[0]));
+            } else {
+                urlCont.push(md5(user.contactos[i].split("///")[0] + user.email))
             }
-        );
-    } else {
-        return res.redirect("/login");
+        }
+        console.log(urlCont)
+        console.log(listCont)
+        return res.render('index', {User: user.email});
     }
 }
 
@@ -77,28 +77,27 @@ exports.createUserPOST = function (req, res, next) {
 }
 
 exports.addContact = function (req, res, next) {
-    jwt.decodeToken(req.cookies["token"], function (msg, data) {
-        Usuario.findOne({email: data.sub}).then(function (user) {
-            //save contact
-            user.contactos.push(req.body.email + "///2")
-            user.save(function (err) {
-                if (err) {
-                    return next(err);
-                }
-                Usuario.findOne({email: req.body.email}).then(function (user) {
-                    //save contact for the other contact
-                    user.contactos.push(data.sub + "///1")
-                    user.save(function (err) {
-                        if (err) {
-                            return next(err);
-                        }
-                        return res.redirect('/dashboard');
-                    });
+    var user = checkToken(req, res)
+    if (user) {
+        //save contact
+        user.contactos.push(req.body.email + "///2")
+        user.save(function (err) {
+            if (err) {
+                return next(err);
+            }
+            Usuario.findOne({email: req.body.email}).then(function (user) {
+                //save contact for the other contact
+                user.contactos.push(data.sub + "///1")
+                user.save(function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    return res.redirect('/dashboard');
                 });
-
             });
+
         });
-    })
+    }
 }
 
 
@@ -124,26 +123,22 @@ exports.changePassPOST = function (req, res, next) {
 };
 
 exports.chat = function (req, res, next) {
-    jwt.decodeToken(req.cookies["token"], function (msg, data) {
-        if (msg) {
-            return res.redirect('/dashboard');
-        }
-        Usuario.findOne({email: data.sub}).then(function (user) {
-            for (var i = 0; i < user.contactos.length; i++) {
-                var idPos
-                console.log(user.contactos[i].split("///"))
-                if (user.contactos[i].split("///")[1] === '2') {
-                    idPos = md5(user.email + user.contactos[i].split("///")[0])
-                } else {
-                    idPos = md5( user.contactos[i].split("///")[0] + user.email)
-                }
-                console.log("idPos: " + idPos + "///" + req.params.id)
-                if (req.params.id === idPos) {
-                    console.log("maricon")
-                    return res.render('chat');
-                }
+    var user = checkToken(req, res)
+    if (user) {
+        for (var i = 0; i < user.contactos.length; i++) {
+            var idPos
+            console.log(user.contactos[i].split("///"))
+            if (user.contactos[i].split("///")[1] === '2') {
+                idPos = md5(user.email + user.contactos[i].split("///")[0])
+            } else {
+                idPos = md5(user.contactos[i].split("///")[0] + user.email)
             }
-            return res.redirect('/dashboard');
-        });
-    });
+            console.log("idPos: " + idPos + "///" + req.params.id)
+            if (req.params.id === idPos) {
+                console.log("maricon")
+                return res.render('chat');
+            }
+        }
+        return res.redirect('/dashboard');
+    }
 }
