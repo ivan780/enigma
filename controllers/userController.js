@@ -36,7 +36,7 @@ exports.index = function (req, res) {
 
 
 exports.login = function (req, res, next) {
-    return res.render('user/login');
+    return res.render('user/login.html');
 };
 
 exports.loginPOST = function (req, res, next) {
