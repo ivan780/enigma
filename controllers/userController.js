@@ -59,7 +59,7 @@ exports.logout = function (req, res, next){
 
 
 exports.createUser = function (req, res, next) {
-    return res.render('user/signUp');
+    return res.render('user/register.html');
 };
 
 exports.createUserPOST = function (req, res, next) {
