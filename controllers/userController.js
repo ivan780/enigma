@@ -36,7 +36,7 @@ exports.index = function (req, res) {
 
 
 exports.login = function (req, res, next) {
-    return res.sendFile('views/login.html', {root: __dirname })
+    return res.sendFile('user/login.html', {root: __dirname })
 };
 
 exports.loginPOST = function (req, res, next) {
