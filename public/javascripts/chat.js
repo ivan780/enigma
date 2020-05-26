@@ -2,7 +2,7 @@ var mensaje = document.getElementById("texto")
 var boton = document.getElementById("send")
 var room = window.location.pathname;
 
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('https://enigma.ivan780.duckdns.org');
 var socket = io.connect();
 joinRoom();
 
