@@ -3,14 +3,14 @@ const Usuario = require('./../models/usuario');
 var jwt = require('../auth/local')
 var md5 = require('md5')
 
-function checkToken(req, res) {
+function checkToken(req, res, callback) {
     jwt.decodeToken(req.cookies["token"], function (msg, data) {
         if (msg) {
             console.log("maricon");
             return res.redirect("/login");
         }
         Usuario.findOne({email: data.sub}).then(function (user) {
-            return user;
+            callback(user)
         });
     });
 }
@@ -18,8 +18,7 @@ function checkToken(req, res) {
 exports.index = function (req, res) {
     var listCont = [];
     var urlCont = [];
-    var user = checkToken(req, res)
-    if (user) {
+    checkToken(req, res, (user) => {
         var contactos = user.contactos;
         for (var i = 0; i < contactos.length; i++) {
             listCont.push(contactos[i].split("///")[0]);
@@ -32,7 +31,7 @@ exports.index = function (req, res) {
         console.log(urlCont)
         console.log(listCont)
         return res.render('index', {User: user.email});
-    }
+    })
 }
 
 
