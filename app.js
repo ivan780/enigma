@@ -79,9 +79,9 @@ io.sockets.on('connection', function (socket) {
         Usuario.findOne({email: data.payload}, function (err, data) {
             console.log(err)
             if (!data){
-                callback(true);
+                callback(false);
             }else {
-                callback(false)
+                callback(true)
             }
         })
     });
