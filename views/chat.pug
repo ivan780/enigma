@@ -1,8 +1,11 @@
 extends layout
 block js
-    link(type='text/js' , href='/socket.io/socket.io.js')
-    link(type='text/js' , href='/javascripts/socket')
+    script(src='/socket.io/socket.io.js')
+    script(src='/javascripts/chat.js')
 
 block content
   h1= title
   p Welcome to #{title}
+
+  textarea(id="texto")
+  button(id="send") Send
