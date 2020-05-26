@@ -36,7 +36,7 @@ exports.index = function (req, res) {
 
 
 exports.login = function (req, res, next) {
-    return res.sendFile('user/login.html', {root: __dirname })
+    return res.render('user/login');
 };
 
 exports.loginPOST = function (req, res, next) {
@@ -54,7 +54,7 @@ exports.loginPOST = function (req, res, next) {
 
 exports.logout = function (req, res, next){
     res.clearCookie('token')
-        .redirect('/login');
+        .redirect('/login')
 }
 
 
