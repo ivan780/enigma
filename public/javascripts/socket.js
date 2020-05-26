@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('https://enigma.ivan780.duckdns.org');
 
 // on connection to server, ask for user's name with an anonymous callback
 socket.on('connect', function(){
