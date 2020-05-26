@@ -1,5 +1,5 @@
 console.log("init")
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('https://enigma.ivan780.duckdns.org');
 
 var submitBtt = document.getElementById("submitBtt");
 submitBtt.disabled = true;
