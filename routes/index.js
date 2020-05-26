@@ -16,7 +16,7 @@ router.get('/test', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    res.redirect('/dashboard');
+   return res.redirect('/dashboard');
 });
 
 
