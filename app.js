@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 //Configuracion
 require('./config/config');
 //Dependecias
