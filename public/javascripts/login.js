@@ -1,8 +1,8 @@
 console.log("init")
 var socket = io.connect('http://localhost:3000');
 
-var submitBtt = document.getElementById("submitBtt")
-submitBtt.disabled = true
+var submitBtt = document.getElementById("submitBtt");
+submitBtt.disabled = true;
 
 var username = document.getElementById("userName").innerText;
 
