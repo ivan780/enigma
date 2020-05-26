@@ -12,7 +12,6 @@ var debug = require('debug')('enigma:server');
 
 //Route required
 var indexRouter = require('./routes/index');
-var chatRouter = require('./routes/chat');
 
 
 
@@ -106,7 +105,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes
 app.use('/', indexRouter);
-app.use('/chat', chatRouter);
 
 
 // catch 404 and forward to error handler
