@@ -16,7 +16,7 @@ function decodeToken(token, callback) {
     const payload = jwt.decode(token, process.env.secretKey);
     const now = moment().unix();
     // check if the token has expired
-    if (now > payload.exp) callback('Token has expired.');
+    if (now > payload.exp) callback(true);
     else callback(null, payload);
 }
 
