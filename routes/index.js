@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 var user_controller = require('../controllers/userController');
-var chat_controller = require('../controllers/chatController');
-
 
 router.get('/test', (req, res) => {
     res.render('login.html', {title: 'first website'});
