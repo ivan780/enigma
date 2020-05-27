@@ -23,23 +23,23 @@ exports.index = function (req, res) {
         for (var i = 0; i < contactos.length; i++) {
             listCont.push(contactos[i].split("///")[0]);
             if (contactos[i].split("///")[1] === '2') {
-                urlCont.push(md5(user.email + user.contactos[i].split("///")[0]));
+                urlCont.push("/chat/"+ md5(user.email + user.contactos[i].split("///")[0]));
             } else {
-                urlCont.push(md5(user.contactos[i].split("///")[0] + user.email))
+                urlCont.push("/chat/"+md5(user.contactos[i].split("///")[0] + user.email))
             }
         }
         console.log(urlCont)
         console.log(listCont)
-        return res.render('index', {User: user.email});
+        return res.render('index', {User: user.email, userEmail: listCont, userLink: urlCont});
     })
 }
 
 
-exports.login = function (req, res, next) {
-    return res.render('user/login.html');
+exports.login = function (req, res) {
+    return res.render('user/login');
 };
 
-exports.loginPOST = function (req, res, next) {
+exports.loginPOST = function (req, res) {
     Usuario.findOne({email: req.body.email}).then(function (user) {
         if (user && bcrypt.compareSync(req.body.pass, user.password)) {
             // Set cookie
@@ -59,7 +59,7 @@ exports.logout = function (req, res, next){
 
 
 exports.createUser = function (req, res, next) {
-    return res.render('user/register.html');
+    return res.render('user/signUp');
 };
 
 exports.createUserPOST = function (req, res, next) {
