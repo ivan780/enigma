@@ -1,7 +1,8 @@
 extends ../layout
 block css
     link(type='text/css' , href='/stylesheets/login.css')
-
+    script(src='/socket.io/socket.io.js')
+    script(src='/javascripts/login.js')
 block content
  div(class='logreg-forms')
   form(method='POST' action='' class='form-signin')
@@ -13,7 +14,7 @@ block content
       input#oldPass.form-control(type='password' name='oldPass' required='true' )
 
       label(for='Pass') new password:
-      input#newPass.form-control(type='password' name='newPass' required='true' )
+      input#pass.form-control(type='password' name='newPass' required='true' )
 
       label(for='Pass') Confirm password:
       input#passConf.form-control(type='password' name='passConf' required='true' )

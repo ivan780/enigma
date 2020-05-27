@@ -8,3 +8,9 @@ block content
         label(for='Email') Email:
         input#email.form-control(type='text' placeholder='Email (example@example.com)' name='email' required='true' value=(undefined===email ? '' : email) )
         button.btn.btn-primary(type='submit' id="submitBtt") Submit
+
+    - for (var i = 0; i < userEmail.length; ++i) {
+      a(href=userLink[i])=userEmail[i]
+      br
+    - }
+
