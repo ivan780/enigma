@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var debug = require('debug')('enigma:server');
+var favicon = require('serve-favicon');
 
 
 //Route required
@@ -21,7 +22,6 @@ var indexRouter = require('./routes/index');
 var app = require('express')();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-
 
 //Port
 var port = normalizePort(process.env.PORT || '3000');
@@ -96,7 +96,7 @@ app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'ejs');
 app.set('view engine', 'pug');
 
-
+app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
