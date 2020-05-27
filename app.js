@@ -9,7 +9,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var debug = require('debug')('enigma:server');
-var favicon = require('serve-favicon');
 
 
 //Route required
