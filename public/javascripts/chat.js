@@ -1,6 +1,7 @@
 var mensaje = document.getElementById("texto")
 var boton = document.getElementById("send")
 var room = window.location.pathname;
+var chat = document.getElementById("chat")
 
 var socket = io.connect('https://enigma.ivan780.duckdns.org');
 var socket = io.connect();
@@ -25,4 +26,14 @@ function sendMessage() {
         Room: room,
         Message: mensaje.value
     });
+    setChat(mensaje.value, true)
+}
+
+function setChat(msg, local) {
+    if (local) {
+        let message = document.createElement("p");
+        message.setAttribute("id", "ola")
+        chat.appendChild(message)
+    }else {
+    }
 }
