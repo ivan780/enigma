@@ -40,6 +40,4 @@ router.post('/add-contact',token, user_controller.addContact);
 
 router.get('/chat/:id', token, user_controller.chat);
 
-router.get('/favicon.ico', (req, res) => res.status(204));
-
 module.exports = router;
