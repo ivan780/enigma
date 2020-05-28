@@ -27,6 +27,6 @@ function updateEmail(e) {
 }
 
 function disabled() {
-    submitBtt.disabled = !(userCheck && emailCheck && passCheck);
+    submitBtt.disabled = !(emailCheck);
 
 }
