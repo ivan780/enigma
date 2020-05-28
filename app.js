@@ -15,8 +15,6 @@ var debug = require('debug')('enigma:server');
 var indexRouter = require('./routes/index');
 
 
-
-
 //Init server
 var app = require('express')();
 var server = require('http').createServer(app);
@@ -31,7 +29,6 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 
-
 //Mongose connection
 mongoose.connect(process.env.URLDB, {useNewUrlParser: true});
 var db = mongoose.connection;
@@ -43,15 +40,18 @@ var Usuario = require('./models/usuario');
 io.sockets.on('connection', function (socket) {
     console.log('Connected client');
 
-    socket.on('create', function(room) {
+    socket.on('create', function (room) {
         socket.join(room);
         console.log(room)
     });
 
     socket.on('send', function (data) {
         console.log(data);
-        socket.to(data.Room).emit('receive', data.Message);
-    })
+        socket.to(data.Room).emit('receive', {
+            Message: data.Message,
+            Time: data.Time
+        })
+    });
 
     socket.on('leave', function (data) {
         console.log("leave: " + data);
@@ -59,15 +59,14 @@ io.sockets.on('connection', function (socket) {
     })
 
 
-
     //event to check if username exist
     socket.on('checkUsername', function (data, callback) {
         console.log('Socket (server-side): received message:', data);
         Usuario.findOne({username: data.payload}, function (err, data) {
             console.log(err)
-            if (!data){
+            if (!data) {
                 callback(true);
-            }else {
+            } else {
                 callback(false)
             }
         })
@@ -78,9 +77,9 @@ io.sockets.on('connection', function (socket) {
         console.log('Socket (server-side): received message:', data);
         Usuario.findOne({email: data.payload}, function (err, data) {
             console.log(err)
-            if (!data){
+            if (!data) {
                 callback(false);
-            }else {
+            } else {
                 callback(true)
             }
         })
