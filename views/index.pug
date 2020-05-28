@@ -4,6 +4,7 @@ block js
     script(src='/javascripts/login.js')
 block content
     p#username #{User}
+        a(href="/logout") Logout
     form(method='POST' action='/add-contact' class='form-signin')
         label(for='Email') Email:
         input#email.form-control(type='text' placeholder='Email (example@example.com)' name='email' required='true' value=(undefined===email ? '' : email) )
