@@ -1,10 +1,15 @@
 extends layout
+block css
+        link(rel="stylesheet" type="text/css" href="/stylesheets/chat.css")
 block js
     script(src='/socket.io/socket.io.js')
     script(src='/javascripts/chat.js')
 
 block content
-  div(id="chat")
+  div(class="menu")
+    div(class="name") #{User}
 
-  textarea(id="texto")
-  button(id="send") Send
+  ol(class="chat" id="chat")
+
+
+  input(class="textarea" id="texto" type="text" placeholder="Type here!")
