@@ -140,7 +140,7 @@ exports.chat = function (req, res, next) {
             console.log("idPos: " + idPos + "///" + req.params.id)
             if (req.params.id === idPos) {
                 console.log("maricon")
-                return res.render('chat');
+                return res.render('chat', {User: user.contactos[i].split("///")[0]});
             }
         }
         return res.redirect('/dashboard');
