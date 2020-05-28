@@ -24,7 +24,6 @@ function joinRoom() {
 function sendMessage() {
     var d = new Date();
     var hour = d.getHours().toString() + ":" + d.getMinutes().toString();
-    console.log(hour)
     if (event.keyCode === 13) {
         socket.emit("send", {
             Room: room,
@@ -33,6 +32,7 @@ function sendMessage() {
         });
         setChat(mensaje.value, true, hour)
     }
+    mensaje.value = ""
 }
 
 /**
