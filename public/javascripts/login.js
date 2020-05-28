@@ -52,6 +52,7 @@ function updateEmail(e) {
 }
 
 function disabled() {
+    console.log(userCheck + emailCheck + passCheck)
     submitBtt.disabled = !(userCheck && emailCheck && passCheck);
 
 }
