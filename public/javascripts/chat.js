@@ -23,7 +23,7 @@ function joinRoom() {
 
 function sendMessage() {
     var d = new Date();
-    var hour = d.getHours().toString() + ":" + d.getMinutes().toString();
+    var hour = d.getHours().toString() + ":" +(d.getMinutes()<10?'0':'') + d.getMinutes().toString();
     if (event.keyCode === 13) {
         socket.emit("send", {
             Room: room,
