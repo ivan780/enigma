@@ -1,6 +1,10 @@
 console.log("init")
 var socket = io.connect('https://enigma.ivan780.duckdns.org');
 
+var userCheck = false;
+var emailCheck = false;
+var passCheck = false;
+
 var submitBtt = document.getElementById("submitBtt");
 submitBtt.disabled = true;
 
@@ -15,12 +19,22 @@ if (inputEmail){
 if (inputUsername){
     inputUsername.addEventListener('input', updateUsername);
 }
+var passReg = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+var pass = document.getElementById("pass");
+pass.addEventListener('input', (e)=>{
+    console.log(e.target.value+"//"+passReg.test(e.target.value))
+    if (passReg.test(e.target.value)){
+        passCheck = true;
+        disabled()
+    }
+});
 
 function updateUsername(e) {
     socket.emit('checkUsername', {
         payload: e.target.value
     }, function (responseData) {
-        disabled(responseData)
+        userCheck = !responseData;
+        disabled();
     })
 }
 
@@ -32,10 +46,12 @@ function updateEmail(e) {
         payload: e.target.value
 
     }, function (responseData) {
-        disabled(responseData)
+        emailCheck = !responseData;
+        disabled();
     })
 }
 
-function disabled(state) {
-    submitBtt.disabled = !state
+function disabled() {
+    submitBtt.disabled = !(userCheck && emailCheck && passCheck);
+
 }
