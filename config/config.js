@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'dev') {
 
 process.env.URLDB = urlDB;
 
-process.env.secretKey = "miclaveultrasecreta123*"
+process.env.secretKey = "432424-23213123-123123-123231"
 
 process.env.expireToken = '5';//Days
 
