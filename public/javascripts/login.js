@@ -46,7 +46,7 @@ function updateEmail(e) {
         payload: e.target.value
 
     }, function (responseData) {
-        emailCheck = responseData;
+        emailCheck = !responseData;
         disabled();
     })
 }
