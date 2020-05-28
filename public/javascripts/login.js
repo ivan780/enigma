@@ -33,7 +33,7 @@ function updateUsername(e) {
     socket.emit('checkUsername', {
         payload: e.target.value
     }, function (responseData) {
-        userCheck = !responseData;
+        userCheck = responseData;
         disabled();
     })
 }
@@ -46,7 +46,7 @@ function updateEmail(e) {
         payload: e.target.value
 
     }, function (responseData) {
-        emailCheck = !responseData;
+        emailCheck = responseData;
         disabled();
     })
 }
