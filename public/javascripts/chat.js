@@ -1,5 +1,4 @@
 var mensaje = document.getElementById("texto")
-var boton = document.getElementById("send")
 var room = window.location.pathname;
 var chat = document.getElementById("chat")
 
@@ -7,13 +6,14 @@ var socket = io.connect('https://enigma.ivan780.duckdns.org');
 var socket = io.connect();
 joinRoom();
 
-boton.addEventListener('click', sendMessage);
+mensaje.addEventListener("keyup", sendMessage);
+
 window.addEventListener("beforeunload", function () {
     socket.emit('leave', room)
 })
 
 socket.on("receive", function (data) {
-    console.log(data)
+    setChat(data.Message, false, data.Time)
 })
 
 function joinRoom() {
@@ -22,18 +22,47 @@ function joinRoom() {
 }
 
 function sendMessage() {
-    socket.emit("send", {
-        Room: room,
-        Message: mensaje.value
-    });
-    setChat(mensaje.value, true)
+    var d = new Date();
+    var hour = d.getHours().toString() + ":" + d.getMinutes().toString();
+    console.log(hour)
+    if (event.keyCode === 13) {
+        socket.emit("send", {
+            Room: room,
+            Message: mensaje.value,
+            Time: hour
+        });
+        setChat(mensaje.value, true, hour)
+    }
 }
 
-function setChat(msg, local) {
+/**
+ * let message = document.createElement("p");
+ message.setAttribute("id", "ola");
+ message.appendChild(document.createTextNode(msg));
+ chat.appendChild(message);
+ */
+function setChat(msg, local, time_) {
+    let delivery;
     if (local) {
-        let message = document.createElement("p");
-        message.setAttribute("id", "ola")
-        chat.appendChild(message)
+        delivery = "self"
     }else {
+        delivery = "other"
     }
+    let li = document.createElement("li");
+    li.setAttribute("class", delivery);
+
+    let div = document.createElement("div");
+    div.setAttribute("class", "msg");
+
+    let p = document.createElement("p")
+    p.appendChild(document.createTextNode(msg));
+
+    let time = document.createElement("time")
+    time.appendChild(document.createTextNode(time_))
+
+
+    div.appendChild(time);
+    div.appendChild(p);
+    li.appendChild(div)
+    chat.appendChild(li)
 }
