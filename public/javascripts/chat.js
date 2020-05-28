@@ -31,8 +31,9 @@ function sendMessage() {
             Time: hour
         });
         setChat(mensaje.value, true, hour)
+        mensaje.value = "";
     }
-    mensaje.value = ""
+
 }
 
 /**
