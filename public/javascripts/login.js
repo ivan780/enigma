@@ -1,9 +1,7 @@
 console.log("init")
 var socket = io.connect('https://enigma.ivan780.duckdns.org');
 
-var userCheck = false;
 var emailCheck = false;
-var passCheck = false;
 
 var submitBtt = document.getElementById("submitBtt");
 submitBtt.disabled = true;
@@ -52,6 +50,6 @@ function updateEmail(e) {
 }
 
 function disabled() {
-    submitBtt.disabled = !(userCheck && emailCheck && passCheck);
+    submitBtt.disabled = !(emailCheck);
 
 }
