@@ -84,6 +84,7 @@ exports.createUserPOST = function (req, res, next) {
 exports.addContact = function (req, res, next) {
     var user = checkToken(req, res)
     if (user) {
+        let email = user.email;
         //save contact
         user.contactos.push(req.body.email + "///2")
         user.save(function (err) {
@@ -92,7 +93,7 @@ exports.addContact = function (req, res, next) {
             }
             Usuario.findOne({email: req.body.email}).then(function (user) {
                 //save contact for the other contact
-                user.contactos.push(data.sub + "///1")
+                user.contactos.push(email + "///1")
                 user.save(function (err) {
                     if (err) {
                         return next(err);
@@ -139,7 +140,6 @@ exports.chat = function (req, res, next) {
             }
             console.log("idPos: " + idPos + "///" + req.params.id)
             if (req.params.id === idPos) {
-                console.log("maricon")
                 return res.render('chat', {User: user.contactos[i].split("///")[0]});
             }
         }
