@@ -82,8 +82,7 @@ exports.createUserPOST = function (req, res, next) {
 }
 
 exports.addContact = function (req, res, next) {
-    var user = checkToken(req, res)
-    if (user) {
+    var user = checkToken(req, res, (user) => {
         let email = user.email;
         //save contact
         user.contactos.push(req.body.email + "///2")
@@ -103,8 +102,10 @@ exports.addContact = function (req, res, next) {
             });
 
         });
-    }
+    })
 }
+
+
 
 
 exports.changePass = function (req, res, next) {
